@@ -29,9 +29,13 @@
         private void InitializeComponent()
         {
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.checkBox1 = new System.Windows.Forms.CheckBox();
             this.txtFolioAlmacen = new System.Windows.Forms.TextBox();
             this.label10 = new System.Windows.Forms.Label();
             this.grbDescripcionArticulo = new System.Windows.Forms.GroupBox();
+            this.btnCategoria = new FontAwesome.Sharp.IconButton();
+            this.cmbCategoria = new UCCOMBOBOX.cmbComboBox();
+            this.label2 = new System.Windows.Forms.Label();
             this.cmbProveedor = new UCCOMBOBOX.cmbComboBox();
             this.cmbPresentacion = new UCCOMBOBOX.cmbComboBox();
             this.label4 = new System.Windows.Forms.Label();
@@ -53,7 +57,6 @@
             this.btnSalir = new FontAwesome.Sharp.IconButton();
             this.btnLimpiar = new FontAwesome.Sharp.IconButton();
             this.ucComboBox1 = new UCCOMBOBOX.UCComboBox();
-            this.checkBox1 = new System.Windows.Forms.CheckBox();
             this.groupBox1.SuspendLayout();
             this.grbDescripcionArticulo.SuspendLayout();
             this.SuspendLayout();
@@ -66,9 +69,20 @@
             this.groupBox1.Controls.Add(this.grbDescripcionArticulo);
             this.groupBox1.Location = new System.Drawing.Point(12, 71);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(562, 327);
+            this.groupBox1.Size = new System.Drawing.Size(567, 376);
             this.groupBox1.TabIndex = 0;
             this.groupBox1.TabStop = false;
+            // 
+            // checkBox1
+            // 
+            this.checkBox1.AutoSize = true;
+            this.checkBox1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.checkBox1.Location = new System.Drawing.Point(457, 351);
+            this.checkBox1.Name = "checkBox1";
+            this.checkBox1.Size = new System.Drawing.Size(86, 17);
+            this.checkBox1.TabIndex = 16;
+            this.checkBox1.Text = "Caducidad";
+            this.checkBox1.UseVisualStyleBackColor = true;
             // 
             // txtFolioAlmacen
             // 
@@ -76,7 +90,7 @@
             this.txtFolioAlmacen.Location = new System.Drawing.Point(365, 19);
             this.txtFolioAlmacen.Name = "txtFolioAlmacen";
             this.txtFolioAlmacen.Size = new System.Drawing.Size(178, 29);
-            this.txtFolioAlmacen.TabIndex = 15;
+            this.txtFolioAlmacen.TabIndex = 1;
             // 
             // label10
             // 
@@ -90,6 +104,9 @@
             // 
             // grbDescripcionArticulo
             // 
+            this.grbDescripcionArticulo.Controls.Add(this.btnCategoria);
+            this.grbDescripcionArticulo.Controls.Add(this.cmbCategoria);
+            this.grbDescripcionArticulo.Controls.Add(this.label2);
             this.grbDescripcionArticulo.Controls.Add(this.cmbProveedor);
             this.grbDescripcionArticulo.Controls.Add(this.cmbPresentacion);
             this.grbDescripcionArticulo.Controls.Add(this.label4);
@@ -108,14 +125,46 @@
             this.grbDescripcionArticulo.Controls.Add(this.dateTimePicker1);
             this.grbDescripcionArticulo.Location = new System.Drawing.Point(6, 46);
             this.grbDescripcionArticulo.Name = "grbDescripcionArticulo";
-            this.grbDescripcionArticulo.Size = new System.Drawing.Size(537, 247);
+            this.grbDescripcionArticulo.Size = new System.Drawing.Size(551, 299);
             this.grbDescripcionArticulo.TabIndex = 13;
             this.grbDescripcionArticulo.TabStop = false;
+            // 
+            // btnCategoria
+            // 
+            this.btnCategoria.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(132)))), ((int)(((byte)(184)))), ((int)(((byte)(198)))));
+            this.btnCategoria.IconChar = FontAwesome.Sharp.IconChar.Barcode;
+            this.btnCategoria.IconColor = System.Drawing.Color.Black;
+            this.btnCategoria.IconFont = FontAwesome.Sharp.IconFont.Auto;
+            this.btnCategoria.IconSize = 20;
+            this.btnCategoria.Location = new System.Drawing.Point(509, 17);
+            this.btnCategoria.Name = "btnCategoria";
+            this.btnCategoria.Size = new System.Drawing.Size(28, 24);
+            this.btnCategoria.TabIndex = 23;
+            this.btnCategoria.UseVisualStyleBackColor = false;
+            this.btnCategoria.Click += new System.EventHandler(this.btnCategoria_Click);
+            // 
+            // cmbCategoria
+            // 
+            this.cmbCategoria.FormattingEnabled = true;
+            this.cmbCategoria.Location = new System.Drawing.Point(176, 20);
+            this.cmbCategoria.Name = "cmbCategoria";
+            this.cmbCategoria.Size = new System.Drawing.Size(328, 21);
+            this.cmbCategoria.TabIndex = 2;
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Font = new System.Drawing.Font("Arial", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label2.Location = new System.Drawing.Point(81, 17);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(89, 19);
+            this.label2.TabIndex = 21;
+            this.label2.Text = "Categoría:";
             // 
             // cmbProveedor
             // 
             this.cmbProveedor.FormattingEnabled = true;
-            this.cmbProveedor.Location = new System.Drawing.Point(168, 130);
+            this.cmbProveedor.Location = new System.Drawing.Point(176, 180);
             this.cmbProveedor.Name = "cmbProveedor";
             this.cmbProveedor.Size = new System.Drawing.Size(328, 21);
             this.cmbProveedor.TabIndex = 20;
@@ -123,7 +172,7 @@
             // cmbPresentacion
             // 
             this.cmbPresentacion.FormattingEnabled = true;
-            this.cmbPresentacion.Location = new System.Drawing.Point(168, 86);
+            this.cmbPresentacion.Location = new System.Drawing.Point(176, 134);
             this.cmbPresentacion.Name = "cmbPresentacion";
             this.cmbPresentacion.Size = new System.Drawing.Size(328, 21);
             this.cmbPresentacion.TabIndex = 19;
@@ -132,7 +181,7 @@
             // 
             this.label4.AutoSize = true;
             this.label4.Font = new System.Drawing.Font("Arial", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label4.Location = new System.Drawing.Point(44, 87);
+            this.label4.Location = new System.Drawing.Point(54, 136);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(116, 19);
             this.label4.TabIndex = 6;
@@ -140,17 +189,17 @@
             // 
             // txtCantidad
             // 
-            this.txtCantidad.Location = new System.Drawing.Point(168, 46);
+            this.txtCantidad.Location = new System.Drawing.Point(176, 95);
             this.txtCantidad.Name = "txtCantidad";
             this.txtCantidad.Size = new System.Drawing.Size(112, 20);
-            this.txtCantidad.TabIndex = 5;
+            this.txtCantidad.TabIndex = 4;
             this.txtCantidad.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtCantidad_KeyPress);
             // 
             // label5
             // 
             this.label5.AutoSize = true;
             this.label5.Font = new System.Drawing.Font("Arial", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label5.Location = new System.Drawing.Point(59, 131);
+            this.label5.Location = new System.Drawing.Point(75, 180);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(95, 19);
             this.label5.TabIndex = 8;
@@ -158,17 +207,17 @@
             // 
             // txtStock
             // 
-            this.txtStock.Location = new System.Drawing.Point(418, 47);
+            this.txtStock.Location = new System.Drawing.Point(428, 96);
             this.txtStock.Name = "txtStock";
-            this.txtStock.Size = new System.Drawing.Size(112, 20);
-            this.txtStock.TabIndex = 18;
+            this.txtStock.Size = new System.Drawing.Size(109, 20);
+            this.txtStock.TabIndex = 5;
             this.txtStock.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtStock_KeyPress);
             // 
             // label3
             // 
             this.label3.AutoSize = true;
             this.label3.Font = new System.Drawing.Font("Arial", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label3.Location = new System.Drawing.Point(69, 46);
+            this.label3.Location = new System.Drawing.Point(86, 96);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(84, 19);
             this.label3.TabIndex = 4;
@@ -178,7 +227,7 @@
             // 
             this.label6.AutoSize = true;
             this.label6.Font = new System.Drawing.Font("Arial", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label6.Location = new System.Drawing.Point(51, 169);
+            this.label6.Location = new System.Drawing.Point(64, 218);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(106, 19);
             this.label6.TabIndex = 10;
@@ -188,7 +237,7 @@
             // 
             this.label9.AutoSize = true;
             this.label9.Font = new System.Drawing.Font("Arial", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label9.Location = new System.Drawing.Point(353, 46);
+            this.label9.Location = new System.Drawing.Point(363, 95);
             this.label9.Name = "label9";
             this.label9.Size = new System.Drawing.Size(59, 19);
             this.label9.TabIndex = 17;
@@ -196,7 +245,7 @@
             // 
             // txtRequisicion
             // 
-            this.txtRequisicion.Location = new System.Drawing.Point(167, 169);
+            this.txtRequisicion.Location = new System.Drawing.Point(176, 219);
             this.txtRequisicion.Name = "txtRequisicion";
             this.txtRequisicion.Size = new System.Drawing.Size(363, 20);
             this.txtRequisicion.TabIndex = 11;
@@ -208,7 +257,7 @@
             this.btnProveedor.IconColor = System.Drawing.Color.Black;
             this.btnProveedor.IconFont = FontAwesome.Sharp.IconFont.Auto;
             this.btnProveedor.IconSize = 20;
-            this.btnProveedor.Location = new System.Drawing.Point(502, 128);
+            this.btnProveedor.Location = new System.Drawing.Point(510, 178);
             this.btnProveedor.Name = "btnProveedor";
             this.btnProveedor.Size = new System.Drawing.Size(28, 24);
             this.btnProveedor.TabIndex = 16;
@@ -217,17 +266,17 @@
             // 
             // txtNombreArticulo
             // 
-            this.txtNombreArticulo.Location = new System.Drawing.Point(167, 11);
+            this.txtNombreArticulo.Location = new System.Drawing.Point(176, 60);
             this.txtNombreArticulo.MaxLength = 50;
             this.txtNombreArticulo.Name = "txtNombreArticulo";
-            this.txtNombreArticulo.Size = new System.Drawing.Size(364, 20);
-            this.txtNombreArticulo.TabIndex = 1;
+            this.txtNombreArticulo.Size = new System.Drawing.Size(361, 20);
+            this.txtNombreArticulo.TabIndex = 3;
             // 
             // label8
             // 
             this.label8.AutoSize = true;
             this.label8.Font = new System.Drawing.Font("Arial", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label8.Location = new System.Drawing.Point(40, 210);
+            this.label8.Location = new System.Drawing.Point(54, 259);
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(116, 19);
             this.label8.TabIndex = 13;
@@ -240,7 +289,7 @@
             this.btnPresentacion.IconColor = System.Drawing.Color.Black;
             this.btnPresentacion.IconFont = FontAwesome.Sharp.IconFont.Auto;
             this.btnPresentacion.IconSize = 20;
-            this.btnPresentacion.Location = new System.Drawing.Point(502, 84);
+            this.btnPresentacion.Location = new System.Drawing.Point(510, 132);
             this.btnPresentacion.Name = "btnPresentacion";
             this.btnPresentacion.Size = new System.Drawing.Size(28, 24);
             this.btnPresentacion.TabIndex = 15;
@@ -251,7 +300,7 @@
             // 
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("Arial", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.Location = new System.Drawing.Point(6, 12);
+            this.label1.Location = new System.Drawing.Point(6, 61);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(164, 19);
             this.label1.TabIndex = 0;
@@ -261,7 +310,7 @@
             // 
             this.dateTimePicker1.Enabled = false;
             this.dateTimePicker1.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.dateTimePicker1.Location = new System.Drawing.Point(168, 206);
+            this.dateTimePicker1.Location = new System.Drawing.Point(176, 255);
             this.dateTimePicker1.Name = "dateTimePicker1";
             this.dateTimePicker1.Size = new System.Drawing.Size(363, 26);
             this.dateTimePicker1.TabIndex = 14;
@@ -286,7 +335,7 @@
             this.btnGuardar.IconFont = FontAwesome.Sharp.IconFont.Auto;
             this.btnGuardar.IconSize = 32;
             this.btnGuardar.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnGuardar.Location = new System.Drawing.Point(274, 404);
+            this.btnGuardar.Location = new System.Drawing.Point(276, 453);
             this.btnGuardar.Name = "btnGuardar";
             this.btnGuardar.Size = new System.Drawing.Size(127, 48);
             this.btnGuardar.TabIndex = 4;
@@ -304,7 +353,7 @@
             this.btnSalir.IconFont = FontAwesome.Sharp.IconFont.Auto;
             this.btnSalir.IconSize = 32;
             this.btnSalir.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnSalir.Location = new System.Drawing.Point(428, 404);
+            this.btnSalir.Location = new System.Drawing.Point(430, 453);
             this.btnSalir.Name = "btnSalir";
             this.btnSalir.Size = new System.Drawing.Size(127, 48);
             this.btnSalir.TabIndex = 5;
@@ -322,7 +371,7 @@
             this.btnLimpiar.IconFont = FontAwesome.Sharp.IconFont.Auto;
             this.btnLimpiar.IconSize = 32;
             this.btnLimpiar.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnLimpiar.Location = new System.Drawing.Point(119, 404);
+            this.btnLimpiar.Location = new System.Drawing.Point(121, 453);
             this.btnLimpiar.Name = "btnLimpiar";
             this.btnLimpiar.Size = new System.Drawing.Size(127, 48);
             this.btnLimpiar.TabIndex = 6;
@@ -337,23 +386,12 @@
             this.ucComboBox1.Size = new System.Drawing.Size(128, 28);
             this.ucComboBox1.TabIndex = 7;
             // 
-            // checkBox1
-            // 
-            this.checkBox1.AutoSize = true;
-            this.checkBox1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.checkBox1.Location = new System.Drawing.Point(446, 299);
-            this.checkBox1.Name = "checkBox1";
-            this.checkBox1.Size = new System.Drawing.Size(86, 17);
-            this.checkBox1.TabIndex = 16;
-            this.checkBox1.Text = "Caducidad";
-            this.checkBox1.UseVisualStyleBackColor = true;
-            // 
             // frmAltaArticulos
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(132)))), ((int)(((byte)(184)))), ((int)(((byte)(198)))));
-            this.ClientSize = new System.Drawing.Size(592, 464);
+            this.ClientSize = new System.Drawing.Size(593, 513);
             this.Controls.Add(this.ucComboBox1);
             this.Controls.Add(this.btnLimpiar);
             this.Controls.Add(this.btnSalir);
@@ -400,6 +438,9 @@
         private UCCOMBOBOX.cmbComboBox cmbProveedor;
         private UCCOMBOBOX.cmbComboBox cmbPresentacion;
         private System.Windows.Forms.CheckBox checkBox1;
+        private UCCOMBOBOX.cmbComboBox cmbCategoria;
+        private System.Windows.Forms.Label label2;
+        private FontAwesome.Sharp.IconButton btnCategoria;
     }
 }
 

@@ -12,16 +12,19 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Windows.Media;
 using UCCOMBOBOX;
-using UtileriasFuncionesLESP;
+using CFACADECONN;
+using CFACADESTRUC;
+using CATEGORIAS;
+using System.Reflection;
 
 namespace Almacen
 {
     public partial class frmAltaArticulos : CControl
     {
-        string sTitulo = "", sRutaImg = "";
-        CEstructuraGral ep;
+        string sTitulo = "";
+        CEstructura ep;
 
-        public frmAltaArticulos(CEstructuraGral ed)
+        public frmAltaArticulos(CEstructura ed)
         {
             InitializeComponent();
             ep = ed;
@@ -37,7 +40,29 @@ namespace Almacen
             HabilitarTeclaEscape = true;
             HabilitarTeclasSalir = true;
 
-            AgregarControl(txtFolioAlmacen, fMostrarInformacion, true, "El campo [ FOLIO ] no puede estar vacío, favor de verificar...", false);
+            fInicializa();
+
+            switch (ep.Opcion){
+                case 0:
+                    lblTitulo.Text = "ALTA DE ARTICULOS EN ALMACEN";
+                    sTitulo = "ALTA DE ARTICULOS EN ALMACEN";
+                    txtFolioAlmacen.ReadOnly = true;
+                    txtFolioAlmacen.Enabled = false;
+                    AgregarControl(txtFolioAlmacen, null, false, "", false);
+                    cmbCategoria.Select();
+                    break;
+                case 1:
+                    lblTitulo.Text = "ACTUALIZACIÓN DE ARTICULOS EN ALMACEN";
+                    sTitulo = "ACTUALIZACIÓN DE ARTICULOS EN ALMACEN";
+                    AgregarControl(txtFolioAlmacen, fMostrarInformacion, true, "El campo [ FOLIO ] no puede estar vacío, favor de verificar...", false);
+                    txtFolioAlmacen.Select();
+                    break;
+                default:
+                    break;
+            }
+
+            AgregarControl(cmbCategoria, null, true, "", false);
+            AgregarControl(btnCategoria, null, "", false);
             AgregarControl(txtNombreArticulo, null, true, "El campo [ NOMBRE DEL ARTICULO ] no puede estar vacío, favor de verificar...", false);
             AgregarControl(txtCantidad, null, true, "El campo [ CANTIDAD ] no puede estar vacío, favor de verificar...", false);
             AgregarControl(txtStock, null, true, "El campo [ STOCK ] no puede estar vacío, favor de verificar...", false);
@@ -51,50 +76,41 @@ namespace Almacen
             AgregarControl(btnLimpiar, null, "", false);
             AgregarControl(btnGuardar, null, "", false);
             AgregarControl(btnSalir, null, "", false);
-
-            fInicializa();
-
-            switch (ep.Opcion){
-                case 0:
-                    lblTitulo.Text = "ALTA DE ARTICULOS EN ALMACEN";
-                    sTitulo = "ALTA DE ARTICULOS EN ALMACEN";
-                    txtFolioAlmacen.ReadOnly = true;
-                    txtFolioAlmacen.Enabled = false;
-                    txtNombreArticulo.Select();
-                    break;
-                case 1:
-                    lblTitulo.Text = "ACTUALIZACIÓN DE ARTICULOS EN ALMACEN";
-                    sTitulo = "ACTUALIZACIÓN DE ARTICULOS EN ALMACEN";
-                    txtFolioAlmacen.Select();
-                    break;
-                default:
-                    break;
-            } 
         }
 
         public void fInicializa()
         {
             fLimpiarInformacion();
+            fLlenarCombosCategorias();
             fLlenarCombosPresentacion();
             fLlenarCombosProveedores();
+        }
+
+        public void fLlenarCombosCategorias()
+        {
+            cmbCategoria.DataSource = null;
+
+            string sPresentacion = "SELECT descripcion, identificador FROM cmb_utileriasalmacen(0::SMALLINT)";
+
+            cmbComboBox.fLlenarComboBoxPostgres(ep, sTitulo, sPresentacion, 3, cmbCategoria, 1);
         }
 
         public void fLlenarCombosPresentacion()
         {
             cmbPresentacion.DataSource = null;
 
-            string sPresentacion = "EXECUTE almacen.dbo.Proc_UtileriasAlmacen 0";
+            string sPresentacion = "SELECT descripcion, identificador FROM cmb_utileriasalmacen(1::SMALLINT)";
 
-            cmbComboBox.fLlenarComboBox(ep, sTitulo, sPresentacion, 3, cmbPresentacion, 1);
+            cmbComboBox.fLlenarComboBoxPostgres(ep, sTitulo, sPresentacion, 3, cmbPresentacion, 1);
         }
 
         public void fLlenarCombosProveedores()
         {
             cmbProveedor.DataSource = null;
 
-            string sPresentacion = "EXECUTE almacen.dbo.Proc_UtileriasAlmacen 1";
+            string sPresentacion = "SELECT descripcion, identificador FROM cmb_utileriasalmacen(2::SMALLINT)";
 
-            cmbComboBox.fLlenarComboBox(ep, sTitulo, sPresentacion, 3, cmbProveedor, 1);
+            cmbComboBox.fLlenarComboBoxPostgres(ep, sTitulo, sPresentacion, 3, cmbProveedor, 1);
         }
 
         // Limpia la informacion de los campos
@@ -102,13 +118,42 @@ namespace Almacen
         {
             try
             {
-                FuncionesLESP.fLimpiarInformacion(grbDescripcionArticulo);
+                fLimpiarInformacion(grbDescripcionArticulo);
+                cmbCategoria.DataSource = null;
                 cmbPresentacion.DataSource = null;
                 cmbProveedor.DataSource = null;
             }
             catch (Exception ex)
             {
                 MessageBox.Show("Se presento un problema al limpiar la información: \n" + ex.Message.ToString(), sTitulo, MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        public static void fLimpiarInformacion(GroupBox gb)
+        {
+            foreach (Control c in gb.Controls)
+            {
+                if (c is TextBox || c is RichTextBox)
+                {
+                    c.Text = "";
+                }
+                else if (c is ComboBox)
+                {
+                    var tmp = c as ComboBox;
+                    tmp.DataSource = null;
+                    tmp.Items.Clear();
+                }
+                else if (c is DataGridView)
+                {
+                    var tmp = c as DataGridView;
+                    tmp.Rows.Clear();
+                    tmp.Columns.Clear();
+                }
+                else if (c is CheckBox)
+                {
+                    var tmp = c as CheckBox;
+                    tmp.Checked = false;
+                }
             }
         }
 
@@ -124,7 +169,7 @@ namespace Almacen
                 sConsulta = string.Format("EXECUTE almacen.dbo.Proc_ConsultarArticulo {0}", nIdentificador);
 
                 OdbcConnection conn = new OdbcConnection();
-                if (FuncionesLESP.conexionSQL(ep, ref conn))
+                //if (FuncionesLESP.conexionSQL(ep, ref conn))
                 {
                     OdbcCommand com = new OdbcCommand(sConsulta, conn);
                     OdbcDataReader reader;
@@ -201,21 +246,33 @@ namespace Almacen
             this.Close();
         }
 
+        private void btnCategoria_Click(object sender, EventArgs e)
+        {
+            // Llamado del DLL de las categorias
+            string sRuta = @"C:\ALMACEN\CATEGORIAS.DLL", sNombreForm = "CATEGORIAS.frmCategorias";
+
+            if (fCargarDll(sRuta, sNombreForm))
+            {
+                fLlenarCombosCategorias();
+            }
+        }
+
         private void btnPresentacion_Click(object sender, EventArgs e)
         {
             // Llamado del DLL de las presentaciones
             try
             {
-                string sRuta = @"C:\LESP\PRESENTACIONES.DLL", sNombreForm = "PRESENTACIONES.frmPresentacion";
+                string sRuta = @"C:\ALMACEN\PRESENTACIONES.DLL", sNombreForm = "PRESENTACIONES.frmPresentacion";
 
-                CCargarDLL.cargarDllNoConformidades(sRuta, sNombreForm, ep);
-                fLlenarCombosPresentacion();
+                if (fCargarDll(sRuta, sNombreForm))
+                {
+                    fLlenarCombosPresentacion();
+                }
             }
             catch (Exception ex)
             {
                 MessageBox.Show("Se presento un problema al cargar las presentaciones: \n" + ex.Message.ToString().Trim(), sTitulo, MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
-
         }
 
         private void btnProveedor_Click(object sender, EventArgs e)
@@ -223,15 +280,43 @@ namespace Almacen
             // Llamado del DLL de los proveedores
             try
             {
-                string sRuta = @"C:\LESP\PROVEEDORES.DLL", sNombreForm = "PROVEEDORES.frmProveedor";
+                string sRuta = @"C:\ALMACEN\PROVEEDORES.DLL", sNombreForm = "PROVEEDORES.frmProveedor";
 
-                CCargarDLL.cargarDllNoConformidades(sRuta, sNombreForm, ep);
-                fLlenarCombosProveedores();
+                if (fCargarDll(sRuta, sNombreForm))
+                {
+                    fLlenarCombosProveedores();
+                }
             }
             catch (Exception ex)
             {
                 MessageBox.Show("Se presento un problema al cargar los proveedores: \n" + ex.Message.ToString().Trim(), sTitulo, MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+        }
+
+        public bool fCargarDll(string sRuta, string sNombreForm)
+        {
+            bool valorRegresa = false;
+
+            try
+            {
+                CControl objForm = new CControl();
+                Assembly DllaCargar = Assembly.LoadFile(sRuta);
+                Type DllType = DllaCargar.GetType(sNombreForm);
+                object miObjetoDll = Activator.CreateInstance(DllType, ep);
+                objForm = (CControl)miObjetoDll;
+                objForm.ShowDialog();
+                valorRegresa = true;
+            }
+            catch (IOException ioEx)
+            {
+                MessageBox.Show(ioEx.Message.ToString(), "Error al Cargar DLL", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            catch (Exception Ex)
+            {
+                MessageBox.Show(Ex.Message.ToString(), "Error al Cargar DLL", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+
+            return valorRegresa;
         }
 
         private void btnGuardar_Click(object sender, EventArgs e)

@@ -3,7 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using UtileriasFuncionesLESP;
+using CFACADESTRUC;
+using CFACADEFUN;
 
 namespace Almacen
 {
@@ -15,12 +16,13 @@ namespace Almacen
         [STAThread]
         static void Main()
         {
-            CEstructuraGral ep = new CEstructuraGral();
-            ep.Ip = "127.0.0.1";
-            ep.BaseDeDatos = "almacen";
+            CEstructura ep = new CEstructura();
+            ep.Ip = "192.168.1.232";
+            ep.BaseDeDatos = "almacenLESP";
             ep.Usuario = "almacen";
-            ep.IpMaquina = FuncionesLESP.consultarsIp();
-            ep.Pass = FuncionesLESP.GeneraPassWord(ep.Usuario, ep.BaseDeDatos); // df86f48c52ea61268a86f38fadf9447e
+            ep.Puerto = 5432;
+            ep.IpMaquina = CFuncionesGral.consultarsIp();
+            ep.Opcion = 0;
 
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
