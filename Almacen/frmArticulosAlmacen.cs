@@ -16,6 +16,8 @@ using CFACADECONN;
 using CFACADESTRUC;
 using CATEGORIAS;
 using System.Reflection;
+using CFACADEFUN;
+using Npgsql;
 
 namespace Almacen
 {
@@ -40,8 +42,6 @@ namespace Almacen
             HabilitarTeclaEscape = true;
             HabilitarTeclasSalir = true;
 
-            fInicializa();
-
             switch (ep.Opcion){
                 case 0:
                     lblTitulo.Text = "ALTA DE ARTICULOS EN ALMACEN";
@@ -54,6 +54,12 @@ namespace Almacen
                 case 1:
                     lblTitulo.Text = "ACTUALIZACIÓN DE ARTICULOS EN ALMACEN";
                     sTitulo = "ACTUALIZACIÓN DE ARTICULOS EN ALMACEN";
+                    AgregarControl(txtFolioAlmacen, fMostrarInformacion, true, "El campo [ FOLIO ] no puede estar vacío, favor de verificar...", false);
+                    txtFolioAlmacen.Select();
+                    break;
+                case 2:
+                    lblTitulo.Text = "ELIMINAR ARTICULOS EN ALMACEN";
+                    sTitulo = "ELIMINAR ARTICULOS EN ALMACEN";
                     AgregarControl(txtFolioAlmacen, fMostrarInformacion, true, "El campo [ FOLIO ] no puede estar vacío, favor de verificar...", false);
                     txtFolioAlmacen.Select();
                     break;
@@ -72,10 +78,17 @@ namespace Almacen
             AgregarControl(btnProveedor, null, "", false);
             AgregarControl(txtRequisicion, null, true, "El campo [ REQUISICION ] no puede estar vacío, favor de verificar...", false);
 
+            AgregarControl(chkCaducidad, null, "", false);
+            AgregarControl(dtpFechaCaducidad, null, "", false);
+            AgregarControl(txtLoteCaducidad, null, "", false);
+            AgregarControl(txtMarcaCaducidad, null, "", false);
+
             // Botones
             AgregarControl(btnLimpiar, null, "", false);
             AgregarControl(btnGuardar, null, "", false);
             AgregarControl(btnSalir, null, "", false);
+
+            fInicializa();
         }
 
         public void fInicializa()
@@ -84,6 +97,15 @@ namespace Almacen
             fLlenarCombosCategorias();
             fLlenarCombosPresentacion();
             fLlenarCombosProveedores();
+
+            this.Size = new Size(609, 552);
+            grbCaducidad.Visible = false;
+            grbGral.Size = new Size(567, 375);
+            btnLimpiar.Location = new Point(121, 453);
+            btnGuardar.Location = new Point(276, 453);
+            btnSalir.Location = new Point(430, 453);
+
+            chkCaducidad.Checked = false;
         }
 
         public void fLlenarCombosCategorias()
@@ -118,6 +140,7 @@ namespace Almacen
         {
             try
             {
+                fLimpiarInformacion(grbGral);
                 fLimpiarInformacion(grbDescripcionArticulo);
                 cmbCategoria.DataSource = null;
                 cmbPresentacion.DataSource = null;
@@ -166,35 +189,53 @@ namespace Almacen
             try
             {
                 nIdentificador = Convert.ToInt32(txtFolioAlmacen.Text.ToString().Trim());
-                sConsulta = string.Format("EXECUTE almacen.dbo.Proc_ConsultarArticulo {0}", nIdentificador);
+                sConsulta = string.Format(" SELECT numero_categoria_id, nombre_articulo, cantidad, stock, presentacion_id, proveedor_id, requisicion, flag_caducidad, fecha_caducidad, lote_caducidad, marca_caducidad " + 
+                                          " FROM consulta_articulos_type({0}::INTEGER) ", nIdentificador);
+                txtFolioAlmacen.Text = nIdentificador.ToString("D8");
 
-                OdbcConnection conn = new OdbcConnection();
-                //if (FuncionesLESP.conexionSQL(ep, ref conn))
+                NpgsqlConnection conn = new NpgsqlConnection();
                 {
-                    OdbcCommand com = new OdbcCommand(sConsulta, conn);
-                    OdbcDataReader reader;
-                    reader = com.ExecuteReader();
-
-                    if (reader.Read())
+                    if(CConeccion.conexionPostgre(ep, ref conn, ref sError))
                     {
-                        txtNombreArticulo.Text = reader["nombre_articulo"].ToString().Trim();
+                        NpgsqlCommand com = new NpgsqlCommand(sConsulta, conn);
+                        NpgsqlDataReader reader;
+                        reader = com.ExecuteReader();
 
-                        nCantidad = Convert.ToInt32(reader["cantidad"].ToString().Trim());
-                        txtCantidad.Text = nCantidad.ToString().Trim();
+                        if (reader.Read())
+                        {
+                            cmbCategoria.SelectedIndex = Convert.ToInt32(reader["numero_categoria_id"].ToString().Trim());
 
-                        nStock = Convert.ToInt32(reader["stock"].ToString().Trim());
-                        txtStock.Text = nStock.ToString();
+                            txtNombreArticulo.Text = reader["nombre_articulo"].ToString().Trim();
 
-                        cmbPresentacion.SelectedIndex = Convert.ToInt32(reader["presentacion"].ToString().Trim());
-                        cmbProveedor.SelectedIndex = Convert.ToInt32(reader["proveedor"].ToString().Trim());
+                            nCantidad = Convert.ToInt32(reader["cantidad"].ToString().Trim());
+                            txtCantidad.Text = nCantidad.ToString().Trim();
 
-                        txtRequisicion.Text = reader["requisicion"].ToString().Trim();
+                            nStock = Convert.ToInt32(reader["stock"].ToString().Trim());
+                            txtStock.Text = nStock.ToString();
 
-                        valorRegresa = true;
-                    }
-                    else
-                    {
-                        MessageBox.Show("El [ FOLIO ] proporcionado, no contiene información...Verifique!!!", sTitulo, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                            cmbPresentacion.SelectedIndex = Convert.ToInt32(reader["presentacion_id"].ToString().Trim());
+                            cmbProveedor.SelectedIndex = Convert.ToInt32(reader["proveedor_id"].ToString().Trim());
+
+                            txtRequisicion.Text = reader["requisicion"].ToString().Trim();
+
+                            if (Convert.ToInt32(reader["flag_caducidad"].ToString().Trim()) == 1)
+                            {
+                                chkCaducidad.Checked = true;
+
+                                txtLoteCaducidad.Text = reader["lote_caducidad"].ToString().Trim();
+                                txtMarcaCaducidad.Text = reader["marca_caducidad"].ToString().Trim();
+
+                                dtpFechaCaducidad.Format = DateTimePickerFormat.Custom;
+                                dtpFechaCaducidad.CustomFormat = "dd/MM/yyyy";
+                                dtpFechaCaducidad.Text = reader["fecha_caducidad"].ToString().Trim();
+                            }
+
+                            valorRegresa = true;
+                        }
+                        else
+                        {
+                            MessageBox.Show("El [ FOLIO ] proporcionado, no contiene información...Verifique!!!", sTitulo, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        }
                     }
                 }
             }
@@ -331,11 +372,20 @@ namespace Almacen
         }
 
         public bool fGuardarInformacion() 
-        { 
-            string sNombreArticulo, sCantidad, sStock, sRequisicion, sConsulta;
-            Int32 nStock, nCantidad, nPresentacion, nProveedor, nFolioReferencia;
+        {
+            string sNombreArticulo, sCantidad, sStock, sRequisicion, sConsulta, sMensaje, sFechaCaducidad = "1900-01-01", sLote = "", sMarca = "", sDato;
+            Int32 nStock, nCantidad, nFolioReferencia, nCategoria, nPresentacion, nProveedor, nMarcaCaducidad, nLongituTexto;
             bool valorRegresa = false;
 
+            if (ep.Opcion == 0)
+            {
+                nFolioReferencia = 0;
+            }
+            else
+            {
+                nFolioReferencia = Convert.ToInt32(txtFolioAlmacen.Text.ToString());
+            }
+            
             sNombreArticulo = txtNombreArticulo.Text.Trim();
             sCantidad = txtCantidad.Text.Trim();
             sStock = txtStock.Text.Trim();
@@ -344,23 +394,99 @@ namespace Almacen
             nCantidad = Convert.ToInt32(sCantidad);
             nStock = Convert.ToInt32(sStock);
 
-            nPresentacion = Convert.ToInt32(cmbPresentacion.SelectedValue);
+            nCategoria = Convert.ToInt32(cmbCategoria.SelectedValue);
             nProveedor = Convert.ToInt32(cmbProveedor.SelectedValue);
+            nPresentacion = Convert.ToInt32(cmbPresentacion.SelectedValue);
+
+            if (chkCaducidad.Checked)
+            {
+                nMarcaCaducidad = 1;
+                sLote = txtLoteCaducidad.Text.ToString();
+                sMarca = txtMarcaCaducidad.Text.ToString();
+
+                sDato = dtpFechaCaducidad.Text.ToString();
+                nLongituTexto = 0;
+                nLongituTexto = sDato.Length;
+                sFechaCaducidad = string.Format("{0}-{1}-{2}", sDato.ToString().Substring(nLongituTexto - 4, 4), sDato.ToString().Substring(3, 2), sDato.ToString().Substring(0, 2));
+            }
+            else
+            {
+                sLote = "";
+                sMarca = "";
+                sFechaCaducidad = "1900-01-01";
+                nMarcaCaducidad = 0;
+            }
 
             if (!string.IsNullOrEmpty(sNombreArticulo) && !string.IsNullOrEmpty(sRequisicion))
             {
                 try
                 {
-                    if (ep.Opcion == 0)
+                    NpgsqlConnection conn = new NpgsqlConnection();
+                    if (CConeccion.conexionPostgre(ep, ref conn, ref sError))
                     {
-                        sConsulta = String.Format("EXECUTE almacen.dbo.Proc_InsertarAlmacen '{0}', '{1}', {2}, {3}, {4}, {5}, '{6}'",
-                            sNombreArticulo, nCantidad, nStock, nPresentacion, nProveedor, sRequisicion);
+                        sConsulta = String.Format("SELECT insertar_articulos_almacen({0}::SMALLINT, {1}::INTEGER, {2}::INTEGER, '{3}', {4}::INTEGER, {5}::INTEGER, {6}::INTEGER, {7}::INTEGER, '{8}', {9}::SMALLINT, '{10}'::DATE, '{11}', '{12}')",
+                           ep.Opcion, nFolioReferencia, nCategoria, sNombreArticulo, nCantidad, nStock, nPresentacion, nProveedor, sRequisicion, nMarcaCaducidad, sFechaCaducidad, sLote, sMarca);
+
+                        if (ep.Opcion == 0)
+                        {
+                            NpgsqlCommand com = new NpgsqlCommand(sConsulta, conn);
+                            NpgsqlDataReader reader;
+                            reader = com.ExecuteReader();
+
+                            if (reader.Read())
+                            {
+                                nFolioReferencia = Convert.ToInt32(reader["insertar_articulos_almacen"].ToString());
+                            }
+                        }
+                        else if (ep.Opcion == 1 || ep.Opcion == 2)
+                        {
+                            NpgsqlCommand com = new NpgsqlCommand(sConsulta, conn);
+                            com.ExecuteNonQuery();
+                            valorRegresa = true;
+                        }
                     }
-                    else
+
+                    if(conn.State== ConnectionState.Open)
                     {
-                        nFolioReferencia = Convert.ToInt32(txtFolioAlmacen.Text.ToString());
-                        sConsulta = String.Format("EXECUTE almacen.dbo.Proc_ActualizarAlmacen {0}, '{1}', '{2}', {3}, {4}, {5}, {6}, '{7}'",
-                             nFolioReferencia, sNombreArticulo, nCantidad, nStock, nPresentacion, nProveedor, sRequisicion);
+                        conn.Close();
+                    }
+
+                    switch (ep.Opcion)
+                    {
+                        case 0:
+                            {
+                                NpgsqlConnection conn2 = new NpgsqlConnection();
+                                if (CConeccion.conexionPostgre(ep, ref conn2, ref sError))
+                                {
+                                    sConsulta = String.Format("SELECT actualizar_foliador({0}::INTEGER,{1}::INTEGER)", nCategoria, nFolioReferencia);
+                                    NpgsqlCommand com2 = new NpgsqlCommand(sConsulta, conn2);
+                                    com2.ExecuteNonQuery();
+                                }
+
+                                if(conn2.State== ConnectionState.Open)
+                                {
+                                    conn2.Close();
+                                }
+                                valorRegresa = true;
+
+                                sMensaje = String.Format("Se dio de alta con exito el artículo: {0}", nFolioReferencia.ToString("D8"));
+                                MessageBox.Show(sMensaje, sTitulo, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                            }
+                            break;
+                        case 1:
+                            {
+                                sMensaje = String.Format("Se actualizo con exito el artículo: {0}", nFolioReferencia.ToString("D8"));
+                                MessageBox.Show(sMensaje, sTitulo, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                            }
+                            break;
+                        case 2:
+                            {
+                                sMensaje = String.Format("Se elimino con exito el artículo: {0}", nFolioReferencia.ToString("D8"));
+                                MessageBox.Show(sMensaje, sTitulo, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                            }
+                            break;
+                        default:
+                            break;
                     }
                 }
                 catch(Exception ex)
@@ -374,6 +500,38 @@ namespace Almacen
             }
 
             return valorRegresa;
+        }
+
+        private void chkCaducidad_CheckedChanged(object sender, EventArgs e)
+        {
+            string sFecha = "";
+
+            if (chkCaducidad.Checked)
+            {
+                this.Size = new Size(609, 706);
+                grbCaducidad.Visible = true;
+                grbGral.Size = new Size(567, 532);
+                btnLimpiar.Location = new Point(123, 609);
+                btnGuardar.Location = new Point(278, 609);
+                btnSalir.Location = new Point(432, 609);
+            }
+            else
+            {
+                this.Size = new Size(609, 552);
+                grbCaducidad.Visible = false;
+                grbGral.Size = new Size(567, 375);
+                btnLimpiar.Location = new Point(121, 453);
+                btnGuardar.Location = new Point(276, 453);
+                btnSalir.Location = new Point(430, 453);
+            }
+
+            dtpFechaCaducidad.Format = DateTimePickerFormat.Custom;
+            dtpFechaCaducidad.CustomFormat = "dd/MM/yyyy";
+            sFecha = CFuncionesGral.fConsultarFechaServerPostgres(ep, ref sError);
+            dtpFechaCaducidad.Text = sFecha.ToString();
+
+            txtLoteCaducidad.Text = "";
+            txtMarcaCaducidad.Text = "";
         }
     }
 }

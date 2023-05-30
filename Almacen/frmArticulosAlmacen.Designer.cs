@@ -28,8 +28,15 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.checkBox1 = new System.Windows.Forms.CheckBox();
+            this.grbGral = new System.Windows.Forms.GroupBox();
+            this.grbCaducidad = new System.Windows.Forms.GroupBox();
+            this.txtMarcaCaducidad = new System.Windows.Forms.TextBox();
+            this.label12 = new System.Windows.Forms.Label();
+            this.txtLoteCaducidad = new System.Windows.Forms.TextBox();
+            this.label11 = new System.Windows.Forms.Label();
+            this.label7 = new System.Windows.Forms.Label();
+            this.dtpFechaCaducidad = new System.Windows.Forms.DateTimePicker();
+            this.chkCaducidad = new System.Windows.Forms.CheckBox();
             this.txtFolioAlmacen = new System.Windows.Forms.TextBox();
             this.label10 = new System.Windows.Forms.Label();
             this.grbDescripcionArticulo = new System.Windows.Forms.GroupBox();
@@ -57,32 +64,104 @@
             this.btnSalir = new FontAwesome.Sharp.IconButton();
             this.btnLimpiar = new FontAwesome.Sharp.IconButton();
             this.ucComboBox1 = new UCCOMBOBOX.UCComboBox();
-            this.groupBox1.SuspendLayout();
+            this.grbGral.SuspendLayout();
+            this.grbCaducidad.SuspendLayout();
             this.grbDescripcionArticulo.SuspendLayout();
             this.SuspendLayout();
             // 
-            // groupBox1
+            // grbGral
             // 
-            this.groupBox1.Controls.Add(this.checkBox1);
-            this.groupBox1.Controls.Add(this.txtFolioAlmacen);
-            this.groupBox1.Controls.Add(this.label10);
-            this.groupBox1.Controls.Add(this.grbDescripcionArticulo);
-            this.groupBox1.Location = new System.Drawing.Point(12, 71);
-            this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(567, 376);
-            this.groupBox1.TabIndex = 0;
-            this.groupBox1.TabStop = false;
+            this.grbGral.Controls.Add(this.grbCaducidad);
+            this.grbGral.Controls.Add(this.chkCaducidad);
+            this.grbGral.Controls.Add(this.txtFolioAlmacen);
+            this.grbGral.Controls.Add(this.label10);
+            this.grbGral.Controls.Add(this.grbDescripcionArticulo);
+            this.grbGral.Location = new System.Drawing.Point(12, 71);
+            this.grbGral.Name = "grbGral";
+            this.grbGral.Size = new System.Drawing.Size(567, 532);
+            this.grbGral.TabIndex = 0;
+            this.grbGral.TabStop = false;
             // 
-            // checkBox1
+            // grbCaducidad
             // 
-            this.checkBox1.AutoSize = true;
-            this.checkBox1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.checkBox1.Location = new System.Drawing.Point(457, 351);
-            this.checkBox1.Name = "checkBox1";
-            this.checkBox1.Size = new System.Drawing.Size(86, 17);
-            this.checkBox1.TabIndex = 16;
-            this.checkBox1.Text = "Caducidad";
-            this.checkBox1.UseVisualStyleBackColor = true;
+            this.grbCaducidad.Controls.Add(this.txtMarcaCaducidad);
+            this.grbCaducidad.Controls.Add(this.label12);
+            this.grbCaducidad.Controls.Add(this.txtLoteCaducidad);
+            this.grbCaducidad.Controls.Add(this.label11);
+            this.grbCaducidad.Controls.Add(this.label7);
+            this.grbCaducidad.Controls.Add(this.dtpFechaCaducidad);
+            this.grbCaducidad.Location = new System.Drawing.Point(6, 374);
+            this.grbCaducidad.Name = "grbCaducidad";
+            this.grbCaducidad.Size = new System.Drawing.Size(551, 145);
+            this.grbCaducidad.TabIndex = 17;
+            this.grbCaducidad.TabStop = false;
+            // 
+            // txtMarcaCaducidad
+            // 
+            this.txtMarcaCaducidad.Location = new System.Drawing.Point(178, 108);
+            this.txtMarcaCaducidad.MaxLength = 50;
+            this.txtMarcaCaducidad.Name = "txtMarcaCaducidad";
+            this.txtMarcaCaducidad.Size = new System.Drawing.Size(361, 20);
+            this.txtMarcaCaducidad.TabIndex = 20;
+            // 
+            // label12
+            // 
+            this.label12.AutoSize = true;
+            this.label12.Font = new System.Drawing.Font("Arial", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label12.Location = new System.Drawing.Point(109, 109);
+            this.label12.Name = "label12";
+            this.label12.Size = new System.Drawing.Size(61, 19);
+            this.label12.TabIndex = 19;
+            this.label12.Text = "Marca:";
+            // 
+            // txtLoteCaducidad
+            // 
+            this.txtLoteCaducidad.Location = new System.Drawing.Point(180, 71);
+            this.txtLoteCaducidad.MaxLength = 20;
+            this.txtLoteCaducidad.Name = "txtLoteCaducidad";
+            this.txtLoteCaducidad.Size = new System.Drawing.Size(361, 20);
+            this.txtLoteCaducidad.TabIndex = 18;
+            // 
+            // label11
+            // 
+            this.label11.AutoSize = true;
+            this.label11.Font = new System.Drawing.Font("Arial", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label11.Location = new System.Drawing.Point(112, 72);
+            this.label11.Name = "label11";
+            this.label11.Size = new System.Drawing.Size(58, 19);
+            this.label11.TabIndex = 17;
+            this.label11.Text = "LOTE:";
+            // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.Font = new System.Drawing.Font("Arial", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label7.Location = new System.Drawing.Point(54, 35);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(116, 19);
+            this.label7.TabIndex = 15;
+            this.label7.Text = "Fecha de alta:";
+            // 
+            // dtpFechaCaducidad
+            // 
+            this.dtpFechaCaducidad.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.dtpFechaCaducidad.Format = System.Windows.Forms.DateTimePickerFormat.Short;
+            this.dtpFechaCaducidad.Location = new System.Drawing.Point(176, 31);
+            this.dtpFechaCaducidad.Name = "dtpFechaCaducidad";
+            this.dtpFechaCaducidad.Size = new System.Drawing.Size(147, 26);
+            this.dtpFechaCaducidad.TabIndex = 16;
+            // 
+            // chkCaducidad
+            // 
+            this.chkCaducidad.AutoSize = true;
+            this.chkCaducidad.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.chkCaducidad.Location = new System.Drawing.Point(457, 351);
+            this.chkCaducidad.Name = "chkCaducidad";
+            this.chkCaducidad.Size = new System.Drawing.Size(86, 17);
+            this.chkCaducidad.TabIndex = 16;
+            this.chkCaducidad.Text = "Caducidad";
+            this.chkCaducidad.UseVisualStyleBackColor = true;
+            this.chkCaducidad.CheckedChanged += new System.EventHandler(this.chkCaducidad_CheckedChanged);
             // 
             // txtFolioAlmacen
             // 
@@ -312,7 +391,7 @@
             this.dateTimePicker1.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.dateTimePicker1.Location = new System.Drawing.Point(176, 255);
             this.dateTimePicker1.Name = "dateTimePicker1";
-            this.dateTimePicker1.Size = new System.Drawing.Size(363, 26);
+            this.dateTimePicker1.Size = new System.Drawing.Size(328, 26);
             this.dateTimePicker1.TabIndex = 14;
             // 
             // lblTitulo
@@ -335,7 +414,7 @@
             this.btnGuardar.IconFont = FontAwesome.Sharp.IconFont.Auto;
             this.btnGuardar.IconSize = 32;
             this.btnGuardar.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnGuardar.Location = new System.Drawing.Point(276, 453);
+            this.btnGuardar.Location = new System.Drawing.Point(278, 609);
             this.btnGuardar.Name = "btnGuardar";
             this.btnGuardar.Size = new System.Drawing.Size(127, 48);
             this.btnGuardar.TabIndex = 4;
@@ -353,7 +432,7 @@
             this.btnSalir.IconFont = FontAwesome.Sharp.IconFont.Auto;
             this.btnSalir.IconSize = 32;
             this.btnSalir.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnSalir.Location = new System.Drawing.Point(430, 453);
+            this.btnSalir.Location = new System.Drawing.Point(432, 609);
             this.btnSalir.Name = "btnSalir";
             this.btnSalir.Size = new System.Drawing.Size(127, 48);
             this.btnSalir.TabIndex = 5;
@@ -371,7 +450,7 @@
             this.btnLimpiar.IconFont = FontAwesome.Sharp.IconFont.Auto;
             this.btnLimpiar.IconSize = 32;
             this.btnLimpiar.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnLimpiar.Location = new System.Drawing.Point(121, 453);
+            this.btnLimpiar.Location = new System.Drawing.Point(123, 609);
             this.btnLimpiar.Name = "btnLimpiar";
             this.btnLimpiar.Size = new System.Drawing.Size(127, 48);
             this.btnLimpiar.TabIndex = 6;
@@ -391,18 +470,20 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(132)))), ((int)(((byte)(184)))), ((int)(((byte)(198)))));
-            this.ClientSize = new System.Drawing.Size(593, 513);
+            this.ClientSize = new System.Drawing.Size(593, 667);
             this.Controls.Add(this.ucComboBox1);
             this.Controls.Add(this.btnLimpiar);
             this.Controls.Add(this.btnSalir);
             this.Controls.Add(this.btnGuardar);
             this.Controls.Add(this.lblTitulo);
-            this.Controls.Add(this.groupBox1);
+            this.Controls.Add(this.grbGral);
             this.Name = "frmAltaArticulos";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Load += new System.EventHandler(this.frmAltaArticulos_Load);
-            this.groupBox1.ResumeLayout(false);
-            this.groupBox1.PerformLayout();
+            this.grbGral.ResumeLayout(false);
+            this.grbGral.PerformLayout();
+            this.grbCaducidad.ResumeLayout(false);
+            this.grbCaducidad.PerformLayout();
             this.grbDescripcionArticulo.ResumeLayout(false);
             this.grbDescripcionArticulo.PerformLayout();
             this.ResumeLayout(false);
@@ -412,7 +493,7 @@
 
         #endregion
 
-        private System.Windows.Forms.GroupBox groupBox1;
+        private System.Windows.Forms.GroupBox grbGral;
         private System.Windows.Forms.TextBox txtRequisicion;
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.Label label5;
@@ -437,10 +518,17 @@
         private UCCOMBOBOX.UCComboBox ucComboBox1;
         private UCCOMBOBOX.cmbComboBox cmbProveedor;
         private UCCOMBOBOX.cmbComboBox cmbPresentacion;
-        private System.Windows.Forms.CheckBox checkBox1;
+        private System.Windows.Forms.CheckBox chkCaducidad;
         private UCCOMBOBOX.cmbComboBox cmbCategoria;
         private System.Windows.Forms.Label label2;
         private FontAwesome.Sharp.IconButton btnCategoria;
+        private System.Windows.Forms.GroupBox grbCaducidad;
+        private System.Windows.Forms.TextBox txtMarcaCaducidad;
+        private System.Windows.Forms.Label label12;
+        private System.Windows.Forms.TextBox txtLoteCaducidad;
+        private System.Windows.Forms.Label label11;
+        private System.Windows.Forms.Label label7;
+        private System.Windows.Forms.DateTimePicker dtpFechaCaducidad;
     }
 }
 
