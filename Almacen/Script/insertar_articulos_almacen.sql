@@ -10,12 +10,14 @@ CREATE OR REPLACE FUNCTION insertar_articulos_almacen(opcion SMALLINT,
 													  chk_caducidad SMALLINT, -- Flag de caducidad
 													  date_caducidad DATE, -- Fecha de caducidad
 													  lt_caducidad VARCHAR(20), -- Lote de caducidad
-													  mark_caducidad VARCHAR(50)) -- Marca de caducidad
+													  mark_caducidad VARCHAR(50), -- Marca de caducidad
+													  empleado INTEGER ) -- Empleado que está realizando los movimientos
 RETURNS INTEGER AS
 $$
 
 	DECLARE
 		folio INTEGER;
+		nId INTEGER;
 
 	BEGIN
 	
@@ -23,15 +25,20 @@ $$
 	
 			folio := (SELECT generar_folio(categoria::INTEGER));
 
-			INSERT INTO tb_articulosalmacen (folio_articulo, numero_categoria_id, nombre_articulo, cantidad, stock, presentacion_id, proveedor_id, requisicion, flag_caducidad, fecha_caducidad, lote_caducidad, marca_caducidad)
-			VALUES (folio, categoria, nom_articulo, cant, stk, presentacion, proveedor, requi, chk_caducidad, date_caducidad, lt_caducidad, mark_caducidad);
+			INSERT INTO tb_articulosalmacen (folio_articulo, numero_categoria_id, nombre_articulo, cantidad, stock, presentacion_id, proveedor_id, requisicion, flag_caducidad, fecha_caducidad, lote_caducidad, marca_caducidad, id_empleado)
+			VALUES (folio, categoria, nom_articulo, cant, stk, presentacion, proveedor, requi, chk_caducidad, date_caducidad, lt_caducidad, mark_caducidad, empleado);
 
 			RETURN folio;
 	
 		ELSIF opcion = 1 THEN
 		
+			SELECT id
+			INTO nId
+			FROM tb_categorias
+			WHERE numero_categoria = categoria;
+		
 			UPDATE tb_articulosalmacen
-			SET numero_categoria_id = categoria, 
+			SET numero_categoria_id = nId, 
 				nombre_articulo = nom_articulo, 
 				cantidad = cant, 
 				stock = stk, 
@@ -41,16 +48,22 @@ $$
 				flag_caducidad = chk_caducidad, 
 				fecha_caducidad =  date_caducidad, 
 				lote_caducidad = lt_caducidad, 
-				marca_caducidad = mark_caducidad
-			WHERE folio_articulo = folio_art;
+				marca_caducidad = mark_caducidad,
+				id_empleado = empleado
+			WHERE folio_articulo = folio_art AND numero_categoria_id = nId;
 			
 			RETURN folio_art;
 		
 		ELSIF opcion = 2 THEN
 		
+			SELECT id
+			INTO nId
+			FROM tb_categorias
+			WHERE numero_categoria = categoria;
+			
 			UPDATE tb_articulosalmacen
 			SET status = 1
-			WHERE folio_articulo = folio_art;
+			WHERE folio_articulo = folio_art AND numero_categoria_id = nId;
 			
 			RETURN folio_art;
 			
