@@ -16,5 +16,6 @@ CREATE TABLE tb_his_articulos_almacen(
 	status 				SMALLINT NOT NULL DEFAULT 0,
 	observacion 		VARCHAR(100) NOT NULL DEFAULT '',
 	id_empleado			INTEGER NOT NULL DEFAULT 0,
+	folio_movimiento	INTEGER NOT NULL DEFAULT 0,
 	fecha_modificacion	DATE NOT NULL DEFAULT CURRENT_DATE
 );

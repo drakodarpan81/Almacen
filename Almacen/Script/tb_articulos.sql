@@ -16,6 +16,7 @@ CREATE TABLE tb_articulosalmacen(
 	marca_caducidad		VARCHAR(50) NOT NULL DEFAULT '',
 	status 				SMALLINT NOT NULL DEFAULT 0,
 	observacion 		VARCHAR(100) NOT NULL DEFAULT '',
+	folio_movimiento	INTEGER NOT NULL DEFAULT 0,
 	id_empleado			INTEGER NOT NULL DEFAULT 0,
 	fecha_alta 			DATE NOT NULL DEFAULT CURRENT_DATE,
 	PRIMARY KEY (nombre_articulo, presentacion_id)

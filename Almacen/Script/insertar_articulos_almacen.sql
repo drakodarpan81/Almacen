@@ -23,10 +23,15 @@ $$
 	
 		IF opcion = 0 THEN
 	
-			folio := (SELECT generar_folio(categoria::INTEGER));
+			SELECT id
+			INTO nId
+			FROM tb_categorias
+			WHERE numero_categoria = categoria;
+			
+			folio := (SELECT generar_folio(nId::INTEGER));
 
 			INSERT INTO tb_articulosalmacen (folio_articulo, numero_categoria_id, nombre_articulo, cantidad, stock, presentacion_id, proveedor_id, requisicion, flag_caducidad, fecha_caducidad, lote_caducidad, marca_caducidad, id_empleado)
-			VALUES (folio, categoria, nom_articulo, cant, stk, presentacion, proveedor, requi, chk_caducidad, date_caducidad, lt_caducidad, mark_caducidad, empleado);
+			VALUES (folio, nId, nom_articulo, cant, stk, presentacion, proveedor, requi, chk_caducidad, date_caducidad, lt_caducidad, mark_caducidad, empleado);
 
 			RETURN folio;
 	

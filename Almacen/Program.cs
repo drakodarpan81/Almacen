@@ -22,7 +22,7 @@ namespace Almacen
             ep.Usuario = "almacen";
             ep.Puerto = 5432;
             ep.IpMaquina = CFuncionesGral.consultarsIp();
-            ep.Opcion = 1;
+            ep.Opcion = 0;
 
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);

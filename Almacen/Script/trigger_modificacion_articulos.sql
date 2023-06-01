@@ -1,4 +1,4 @@
--- DROP TRIGGER TR_CRUD_ARTICULOS ON tb_articulosalmacen
+-- DROP TRIGGER SP_crud_articulos ON tb_articulosalmacen
 -- DROP FUNCTION SP_crud_articulos()
 
 CREATE FUNCTION SP_crud_articulos() RETURNS TRIGGER
@@ -24,7 +24,8 @@ $$
 				new.marca_caducidad,
 				new.status,
 				new.observacion,
-				new.id_empleado
+				new.id_empleado,
+				new.folio_movimiento
 			);
 			RETURN NEW;
 		ELSIF (TG_OP = 'DELETE') THEN
@@ -44,7 +45,8 @@ $$
 				old.marca_caducidad,
 				old.status,
 				old.observacion,
-				old.id_empleado
+				old.id_empleado,
+				old.folio_movimiento
 			);
 			RETURN NEW;
 		END IF;

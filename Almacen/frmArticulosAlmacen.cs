@@ -531,7 +531,7 @@ namespace Almacen
                                 }
                                 valorRegresa = true;
 
-                                sMensaje = String.Format("Se dio de alta con exito el artículo: {0} - {1}", sCategoria.ToString().Trim(), nFolioReferencia.ToString("D4"));
+                                sMensaje = String.Format("Se dio de alta con exito el artículo: {0} - {1}", nCategoria.ToString("D3").Trim(), nFolioReferencia.ToString("D4"));
                                 MessageBox.Show(sMensaje, sTitulo, MessageBoxButtons.OK, MessageBoxIcon.Information);
                             }
                             break;
