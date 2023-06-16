@@ -5,7 +5,7 @@
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{48BED2B7-9104-4BC3-A504-9105E53D6458}</ProjectGuid>
-    <OutputType>WinExe</OutputType>
+    <OutputType>Library</OutputType>
     <RootNamespace>Almacen</RootNamespace>
     <AssemblyName>Almacen</AssemblyName>
     <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
@@ -29,21 +29,21 @@
     <StartupObject />
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="CATEGORIAS">
-      <HintPath>C:\ALMACEN\CATEGORIAS.dll</HintPath>
-    </Reference>
     <Reference Include="CCONTROL, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>C:\LESP\CCONTROL.dll</HintPath>
     </Reference>
-    <Reference Include="CFACADECONN">
-      <HintPath>C:\ALMACEN\CFACADECONN.dll</HintPath>
+    <Reference Include="CFACADECONN, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>C:\LESP\CFACADECONN.dll</HintPath>
     </Reference>
-    <Reference Include="CFACADEFUN">
-      <HintPath>C:\ALMACEN\CFACADEFUN.dll</HintPath>
+    <Reference Include="CFACADEFUN, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>C:\LESP\CFACADEFUN.dll</HintPath>
     </Reference>
-    <Reference Include="CFACADESTRUC">
-      <HintPath>C:\ALMACEN\CFACADESTRUC.dll</HintPath>
+    <Reference Include="CFACADESTRUC, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>C:\LESP\CFACADESTRUC.dll</HintPath>
     </Reference>
     <Reference Include="FontAwesome.Sharp, Version=6.3.0.0, Culture=neutral, PublicKeyToken=d16d1e4e568ec10f, processorArchitecture=MSIL">
       <HintPath>..\packages\FontAwesome.Sharp.6.3.0\lib\net48\FontAwesome.Sharp.dll</HintPath>
@@ -57,8 +57,8 @@
     <Reference Include="Microsoft.Extensions.Logging.Abstractions, Version=6.0.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.Extensions.Logging.Abstractions.6.0.0\lib\net461\Microsoft.Extensions.Logging.Abstractions.dll</HintPath>
     </Reference>
-    <Reference Include="Npgsql, Version=8.0.0.0, Culture=neutral, PublicKeyToken=5d8b90d52f46fda7, processorArchitecture=MSIL">
-      <HintPath>..\packages\Npgsql.8.0.0-preview.4\lib\netstandard2.0\Npgsql.dll</HintPath>
+    <Reference Include="Npgsql, Version=7.0.4.0, Culture=neutral, PublicKeyToken=5d8b90d52f46fda7, processorArchitecture=MSIL">
+      <HintPath>..\packages\Npgsql.7.0.4\lib\netstandard2.0\Npgsql.dll</HintPath>
     </Reference>
     <Reference Include="PRESENTACIONES, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -120,7 +120,7 @@
     <Reference Include="System.Xml" />
     <Reference Include="UCComboBox, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>C:\ALMACEN\UCComboBox.dll</HintPath>
+      <HintPath>C:\LESP\UCComboBox.dll</HintPath>
     </Reference>
     <Reference Include="WindowsBase" />
   </ItemGroup>

@@ -14,7 +14,6 @@ using System.Windows.Media;
 using UCCOMBOBOX;
 using CFACADECONN;
 using CFACADESTRUC;
-using CATEGORIAS;
 using System.Reflection;
 using CFACADEFUN;
 using Npgsql;

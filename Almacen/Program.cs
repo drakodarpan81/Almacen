@@ -8,6 +8,7 @@ using CFACADEFUN;
 
 namespace Almacen
 {
+/*
     internal static class Program
     {
         /// <summary>
@@ -22,11 +23,12 @@ namespace Almacen
             ep.Usuario = "almacen";
             ep.Puerto = 5432;
             ep.IpMaquina = CFuncionesGral.consultarsIp();
-            ep.Opcion = 0;
+            ep.Opcion = 1;
 
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             Application.Run(new frmAltaArticulos(ep));
         }
     }
+//*/
 }
